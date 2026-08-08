@@ -1,0 +1,384 @@
+/* ==========================================================================
+   Design tokens
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --color-bg: #1a1a1a;
+  --color-surface: #2a2a2a;
+  --color-border: #3d3d3d;
+  --color-text: #f2f2f0;
+  --color-text-muted: #9a9a95;
+  --color-accent: #c9ab7d;   /* warm tan — flag icon / accent text */
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  /* Type */
+  --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.5rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Layout shell
+   ========================================================================== */
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl);
+}
+
+/* ==========================================================================
+   Toolbar (header)
+   ========================================================================== */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-lg);
+}
+
+.toolbar__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-right: auto;
+}
+
+.toolbar__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  flex: 1 1 220px;
+  max-width: 320px;
+}
+
+.toolbar__search input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: var(--color-text);
+}
+
+.toolbar__search input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.toolbar__controls {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.dropdown-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+/* ==========================================================================
+   Icons
+   ========================================================================== */
+
+.icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.icon--sm {
+  width: 14px;
+  height: 14px;
+}
+
+/* ==========================================================================
+   Country grid
+   ========================================================================== */
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.country-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  aspect-ratio: 16 / 9;
+}
+
+.country-card__name {
+  font-weight: var(--font-weight-medium);
+}
+
+.icon--flag {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==========================================================================
+   Footer actions
+   ========================================================================== */
+
+.footer-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.surprise-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+/* ==========================================================================
+   Back link
+   ========================================================================== */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-lg);
+}
+
+/* ==========================================================================
+   Detail layout
+   ========================================================================== */
+
+.detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+/* ==========================================================================
+   Gallery
+   ========================================================================== */
+
+.gallery-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
+
+.gallery-thumb {
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   Info column
+   ========================================================================== */
+
+.detail__name {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-xs);
+}
+
+.detail__meta {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+.stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-row dd {
+  color: var(--color-text-muted);
+}
+
+.detail__borders {
+  margin-bottom: var(--space-lg);
+}
+
+.detail__borders a {
+  color: var(--color-link);
+}
+
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ==========================================================================
+   Responsive — mobile
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar__title {
+    margin-right: 0;
+  }
+
+  .toolbar__search {
+    max-width: none;
+  }
+
+  .toolbar__controls {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .dropdown-btn {
+    justify-content: center;
+  }
+
+  .country-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .country-card {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .footer-actions {
+    justify-content: stretch;
+  }
+
+  .surprise-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .back-link {
+    margin-top: var(--space-lg);
+  }
+
+  .detail {
+    grid-template-columns: 1fr;
+  }
+}

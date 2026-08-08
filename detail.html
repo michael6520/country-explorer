@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Country Detail</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="page">
+    <a class="back-link" href="index.html">
+      <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to list
+    </a>
+
+    <div class="detail">
+      <div class="detail__gallery">
+        <div class="gallery-main">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span>Photo gallery</span>
+        </div>
+
+        <div class="gallery-thumbs">
+          <div class="gallery-thumb"></div>
+          <div class="gallery-thumb"></div>
+          <div class="gallery-thumb"></div>
+        </div>
+      </div>
+
+      <div class="detail__info">
+        <h1 class="detail__name">Country name</h1>
+        <p class="detail__meta">Region &middot; Capital</p>
+
+        <dl class="stat-list">
+          <div class="stat-row">
+            <dt>Population</dt>
+            <dd>&mdash;</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Area</dt>
+            <dd>&mdash;</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Languages</dt>
+            <dd>&mdash;</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Currency</dt>
+            <dd>&mdash;</dd>
+          </div>
+        </dl>
+
+        <p class="detail__borders">
+          Borders: <a href="detail.html">Neighbor 1</a>, <a href="detail.html">Neighbor 2</a>
+        </p>
+
+        <button class="save-btn" type="button">
+          <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+          </svg>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
