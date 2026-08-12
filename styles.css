@@ -9,7 +9,7 @@
   --color-border: #3d3d3d;
   --color-text: #f2f2f0;
   --color-text-muted: #9a9a95;
-  --color-accent: #c9ab7d;   /* warm tan — flag icon / accent text */
+  --color-accent: #c9ab7d;
 
   /* Spacing scale */
   --space-xs: 4px;
@@ -123,6 +123,11 @@ a {
   padding: var(--space-sm) var(--space-md);
   flex: 1 1 220px;
   max-width: 320px;
+  transition: border-color 0.2s ease;
+}
+
+.toolbar__search:focus-within, .toolbar__search:hover {
+  border-color: var(--color-accent);
 }
 
 .toolbar__search input {
@@ -140,6 +145,28 @@ a {
 .toolbar__controls {
   display: flex;
   gap: var(--space-sm);
+  position: relative;
+}
+
+.saved-btn {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.saved-btn:hover {
+  border-color: var(--color-accent);
+}
+
+.saved-btn--active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .dropdown-btn {
@@ -152,6 +179,37 @@ a {
   padding: var(--space-sm) var(--space-md);
   color: var(--color-text);
   font-size: var(--font-size-sm);
+  transition: border-color 0.2s ease;
+}
+
+.dropdown-btn:hover {
+  border-color: var(--color-accent);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--space-sm);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  list-style: none;
+  padding: var(--space-sm) 0;
+  min-width: 160px;
+  z-index: 10;
+}
+
+.dropdown-menu li {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
 }
 
 /* ==========================================================================
@@ -161,7 +219,7 @@ a {
 .icon {
   width: 18px;
   height: 18px;
-  color: var(--color-text-muted);
+  color: var(--color-accent);
   flex-shrink: 0;
 }
 
@@ -190,6 +248,12 @@ a {
   border-radius: var(--radius-md);
   padding: var(--space-md);
   aspect-ratio: 16 / 9;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.country-card:hover {
+  transform: scale(1.05);
+  border-color: var(--color-accent);
 }
 
 .country-card__name {
@@ -207,7 +271,28 @@ a {
 
 .footer-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.reload-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  transition: border-color 0.2s ease;
+}
+
+.reload-btn[hidden] {
+  display: none;
+}
+
+.reload-btn:hover {
+  border-color: var(--color-accent);
 }
 
 .surprise-btn {
@@ -220,6 +305,11 @@ a {
   padding: var(--space-sm) var(--space-md);
   color: var(--color-text);
   font-size: var(--font-size-sm);
+  transition: border-color 0.2s ease;
+}
+
+.surprise-btn:hover {
+  border-color: var(--color-accent);
 }
 
 /* ==========================================================================
@@ -233,6 +323,11 @@ a {
   color: var(--color-text-muted);
   margin-top: var(--space-xl);
   margin-bottom: var(--space-lg);
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--color-text);
 }
 
 /* ==========================================================================
@@ -313,7 +408,11 @@ a {
 }
 
 .detail__borders a {
-  color: var(--color-link);
+  color: var(--color-accent);
+}
+
+.detail__borders a:hover {
+  text-decoration: underline;
 }
 
 .save-btn {
@@ -322,10 +421,26 @@ a {
   gap: var(--space-sm);
   background: none;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   padding: var(--space-sm) var(--space-lg);
   color: var(--color-text);
   font-weight: var(--font-weight-medium);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.save-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.save-btn--active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.save-btn--active:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-muted);
 }
 
 /* ==========================================================================
@@ -334,25 +449,26 @@ a {
 
 @media (max-width: 640px) {
   .toolbar {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
   }
 
   .toolbar__title {
+    flex: 1 1 100%;
     margin-right: 0;
   }
 
   .toolbar__search {
+    flex: 1 1 auto;
     max-width: none;
   }
 
   .toolbar__controls {
-    display: grid;
-    grid-template-columns: 1fr;
+    flex: 0 0 auto;
   }
 
   .dropdown-btn {
-    justify-content: center;
+    width: auto;
+    white-space: nowrap;
   }
 
   .country-grid {
@@ -360,18 +476,11 @@ a {
   }
 
   .country-card {
+    aspect-ratio: unset;
     flex-direction: row;
     align-items: center;
     gap: var(--space-md);
-  }
-
-  .footer-actions {
-    justify-content: stretch;
-  }
-
-  .surprise-btn {
-    justify-content: center;
-    width: 100%;
+    padding: var(--space-lg) var(--space-md);
   }
 
   .back-link {
