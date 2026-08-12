@@ -1,6 +1,8 @@
+const PEXELS_API_KEY = 'GD96mCJ27DLJCfiXZ9zXLvLnv8d5wxZCvxuHmjdkQZ0c4wrGNxXxKbcZ'
+
 let allCountries = [];
-let selectedRegion = null;
-let savedOnly = false;
+let selectedRegion = localStorage.getItem('selectedRegion') || null;
+let savedOnly = localStorage.getItem('savedOnly') === 'true';
 
 fetch('https://countries.dev/countries?fields=name,region,capital,flag,population,area,currencies,languages,borders,independent,alpha3Code')
   .then(res => res.json())
@@ -20,7 +22,7 @@ function setupSearch() {
   input.addEventListener('input', applyFilters);
 }
 
-  function setupRegionDropdown(countries) {
+function setupRegionDropdown(countries) {
   const regions = [...new Set(countries.map(c => c.region))].sort();
   const menu = document.querySelector('.dropdown-menu');
   const btn = document.querySelector('.dropdown-btn');
@@ -31,6 +33,8 @@ function setupSearch() {
   ).join('');
   menu.innerHTML = allOption + regionOptions;
 
+  btn.childNodes[0].textContent = (selectedRegion || 'Region') + ' ';
+
   btn.addEventListener('click', () => {
     menu.hidden = !menu.hidden;
   });
@@ -38,11 +42,19 @@ function setupSearch() {
   menu.addEventListener('click', (e) => {
     if (e.target.tagName !== 'LI') return;
     selectedRegion = e.target.dataset.region || null;
+
+    if (selectedRegion) {
+      localStorage.setItem('selectedRegion', selectedRegion);
+    } else {
+      localStorage.removeItem('selectedRegion');
+    }
+
     btn.childNodes[0].textContent = (selectedRegion || 'Region') + ' ';
     menu.hidden = true;
     applyFilters();
   });
 }
+
 
 function setupReloadButton() {
   const btn = document.querySelector('.reload-btn');
@@ -93,7 +105,7 @@ function getRandomCountries(countries, count) {
 
 function renderCountryCards(countries) {
   const container = document.querySelector('.country-grid');
-  container.innerHTML = ''
+  container.innerHTML = '';
 
   countries.forEach(country => {
     const card = document.createElement('a');
@@ -110,7 +122,45 @@ function renderCountryCards(countries) {
     });
 
     container.appendChild(card);
+
+    getCountryImage(country.name).then(url => {
+      if (url) {
+        card.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('${url}')`;
+      }
+    });
   });
+}
+
+function getImageCache() {
+  return JSON.parse(localStorage.getItem('pexelsImageCache')) || {};
+}
+
+function setImageCache(cache) {
+  localStorage.setItem('pexelsImageCache', JSON.stringify(cache));
+}
+
+async function getCountryImage(countryName) {
+  const cache = getImageCache();
+
+  if (cache[countryName] !== undefined) {
+    return cache[countryName];
+  }
+
+  try {
+    const res = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(countryName + ' landscape')}&per_page=1`,
+      { headers: { Authorization: PEXELS_API_KEY } }
+    );
+    const data = await res.json();
+    const url = data.photos?.[0]?.src?.large ?? null;
+
+    cache[countryName] = url;
+    setImageCache(cache);
+    return url;
+  } catch (err) {
+    console.error(`Failed to fetch image for ${countryName}:`, err);
+    return null;
+  }
 }
 
 function getFilteredPool() {
@@ -129,8 +179,11 @@ function getFilteredPool() {
 function setupSavedToggle() {
   const btn = document.querySelector('.saved-btn');
 
+  btn.classList.toggle('saved-btn--active', savedOnly);
+
   btn.addEventListener('click', () => {
     savedOnly = !savedOnly;
+    localStorage.setItem('savedOnly', savedOnly);
     btn.classList.toggle('saved-btn--active', savedOnly);
     applyFilters();
   });

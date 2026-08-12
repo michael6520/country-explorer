@@ -248,6 +248,8 @@ a {
   border-radius: var(--radius-md);
   padding: var(--space-md);
   aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
@@ -353,6 +355,8 @@ a {
   gap: var(--space-sm);
   aspect-ratio: 16 / 9;
   background-color: var(--color-surface);
+  background-size: cover;
+  background-position: center;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
@@ -363,6 +367,8 @@ a {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-sm);
+  background-size: cover;
+  background-position: center;
 }
 
 .gallery-thumb {

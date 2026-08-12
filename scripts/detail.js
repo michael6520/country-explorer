@@ -1,3 +1,5 @@
+const PEXELS_API_KEY = 'GD96mCJ27DLJCfiXZ9zXLvLnv8d5wxZCvxuHmjdkQZ0c4wrGNxXxKbcZ';
+
 const params = new URLSearchParams(window.location.search);
 const code = params.get('country');
 
@@ -6,7 +8,8 @@ fetch(`https://countries.dev/alpha/${code}?fields=name,region,capital,flag,popul
   .then(data => {
     renderCountryDetail(data);
     renderBorders(data.borders);
-    setupSaveButton(data)
+    setupSaveButton(data);
+    renderGalleryImages(data.name);
   })
   .catch(err => console.error('Failed to fetch country:', err));
 
@@ -25,12 +28,7 @@ function renderBorders(borderCodes) {
   const container = document.querySelector('.detail__borders');
 
   if (borderCodes === undefined) {
-    container.textContent = 'Neighboring countries: information unavailable';
-    return;
-  }
-
-  if (borderCodes.length === 0) {
-    container.textContent = 'Borders: none (island nation)';
+    container.textContent = 'Borders: No data available';
     return;
   }
 
@@ -52,6 +50,88 @@ function renderBorders(borderCodes) {
         .join(', ');
     })
     .catch(err => console.error('Failed to fetch border countries:', err));
+}
+
+function getImageCache() {
+  return JSON.parse(localStorage.getItem('pexelsImageCache')) || {};
+}
+
+function setImageCache(cache) {
+  localStorage.setItem('pexelsImageCache', JSON.stringify(cache));
+}
+
+function getThumbCache() {
+  return JSON.parse(localStorage.getItem('pexelsThumbCache')) || {};
+}
+
+function setThumbCache(cache) {
+  localStorage.setItem('pexelsThumbCache', JSON.stringify(cache));
+}
+
+async function getCountryImage(countryName) {
+  const cache = getImageCache();
+
+  if (cache[countryName] !== undefined) {
+    return cache[countryName];
+  }
+
+  try {
+    const res = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(countryName + ' landscape')}&per_page=1`,
+      { headers: { Authorization: PEXELS_API_KEY } }
+    );
+    const data = await res.json();
+    const url = data.photos?.[0]?.src?.large ?? null;
+
+    cache[countryName] = url;
+    setImageCache(cache);
+    return url;
+  } catch (err) {
+    console.error(`Failed to fetch image for ${countryName}:`, err);
+    return null;
+  }
+}
+
+async function getCountryThumbnails(countryName) {
+  const cache = getThumbCache();
+
+  if (cache[countryName] !== undefined) {
+    return cache[countryName];
+  }
+
+  try {
+    const res = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(countryName + ' landscape')}&per_page=4`,
+      { headers: { Authorization: PEXELS_API_KEY } }
+    );
+    const data = await res.json();
+    const urls = (data.photos ?? []).slice(1, 4).map(p => p.src.medium);
+
+    cache[countryName] = urls;
+    setThumbCache(cache);
+    return urls;
+  } catch (err) {
+    console.error(`Failed to fetch thumbnails for ${countryName}:`, err);
+    return [];
+  }
+}
+
+async function renderGalleryImages(countryName) {
+  const mainEl = document.querySelector('.gallery-main');
+  const thumbEls = document.querySelectorAll('.gallery-thumb');
+
+  const mainUrl = await getCountryImage(countryName);
+  if (mainUrl) {
+    mainEl.style.backgroundImage = `url('${mainUrl}')`;
+    mainEl.textContent = '';
+  }
+
+  const thumbUrls = await getCountryThumbnails(countryName);
+  thumbEls.forEach((thumb, i) => {
+    if (thumbUrls[i]) {
+      thumb.style.backgroundImage = `url('${thumbUrls[i]}')`;
+    }
+  });
 }
 
 function isSaved(code) {
